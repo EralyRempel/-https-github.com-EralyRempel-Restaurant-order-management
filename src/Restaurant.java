@@ -7,11 +7,8 @@ public class Restaurant {
         this.address = address;
     }
 
-    public String getName() { return name; }
-    public String getAddress() { return address; }
-
     @Override
     public String toString() {
-        return "Ресторан: " + name + " (Адрес: " + address + ")";
+        return "Restaurant: " + name + " | Address: " + address;
     }
 }

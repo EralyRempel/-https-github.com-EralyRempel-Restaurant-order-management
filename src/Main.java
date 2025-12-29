@@ -1,23 +1,23 @@
 public class Main {
     public static void main(String[] args) {
-        MenuItem pizza = new MenuItem("Пицца Маргарита", 2500);
-        MenuItem burger = new MenuItem("Чизбургер", 1800);
-        MenuItem burger2 = new MenuItem("Чизбургер", 1800);
+        Restaurant myRest = new Restaurant("Tasty Java", "Street 101");
+        Order myOrder = new Order(101);
 
-        Order order1 = new Order(101, "Готовится");
-        Restaurant myRest = new Restaurant("Astana Food", "ул. Достык, 10");
+        myOrder.addItem(new Food("Steak", 4500, "Meat"));
+        myOrder.addItem(new Food("Salad", 1800, "Veggie"));
+        myOrder.addItem(new Drink("Lemonade", 900, 0.4));
+        myOrder.addItem(new Drink("Tea", 600, 0.5));
 
         System.out.println(myRest);
-        System.out.println(pizza);
-        System.out.println(order1);
 
-        System.out.println("\n--- Сравнение цен ---");
-        if (pizza.getPrice() > burger.getPrice()) {
-            System.out.println(pizza.getName() + " дороже, чем " + burger.getName());
-        } else if (pizza.getPrice() < burger.getPrice()) {
-            System.out.println(burger.getName() + " дороже, чем " + pizza.getName());
-        } else {
-            System.out.println("Цены одинаковые.");
-        }
+        System.out.println("\n--- Initial Order ---");
+        myOrder.printOrder();
+
+        System.out.println("\n--- Sorted by Price ---");
+        myOrder.sortByPrice();
+        myOrder.printOrder();
+
+        System.out.println("\n--- Items under 1000 ---");
+        myOrder.filterByMaxPrice(1000).forEach(System.out::println);
     }
 }

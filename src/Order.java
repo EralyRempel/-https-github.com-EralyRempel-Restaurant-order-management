@@ -1,20 +1,35 @@
-public class Order {
-    private int orderId;
-    private String status;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
-    public Order(int orderId, String status) {
-        this.orderId = orderId;
-        this.status = status;
+public class Order {
+    private int orderNumber;
+    private List<MenuItem> items;
+
+    public Order(int orderNumber) {
+        this.orderNumber = orderNumber;
+        this.items = new ArrayList<>();
     }
 
-    public int getOrderId() { return orderId; }
-    public void setOrderId(int orderId) { this.orderId = orderId; }
+    public void addItem(MenuItem item) {
+        items.add(item);
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public void sortByPrice() {
+        items.sort(Comparator.comparingDouble(MenuItem::getPrice));
+    }
 
-    @Override
-    public String toString() {
-        return "Заказ №" + orderId + " [Статус: " + status + "]";
+    public List<MenuItem> filterByMaxPrice(double maxPrice) {
+        return items.stream()
+                .filter(item -> item.getPrice() <= maxPrice)
+                .collect(Collectors.toList());
+    }
+
+    public void printOrder() {
+        System.out.println("Order #" + orderNumber);
+        for (MenuItem item : items) {
+            System.out.println(" - " + item);
+        }
     }
 }
