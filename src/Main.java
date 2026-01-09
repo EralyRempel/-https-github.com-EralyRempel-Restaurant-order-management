@@ -1,23 +1,18 @@
 public class Main {
     public static void main(String[] args) {
-        Restaurant myRest = new Restaurant("Tasty Java", "Street 101");
-        Order myOrder = new Order(101);
+        DatabaseManager db = new DatabaseManager();
 
-        myOrder.addItem(new Food("Steak", 4500, "Meat"));
-        myOrder.addItem(new Food("Salad", 1800, "Veggie"));
-        myOrder.addItem(new Drink("Lemonade", 900, 0.4));
-        myOrder.addItem(new Drink("Tea", 600, 0.5));
+        db.addMenuItem("Pizza Margarita", 3500.0, "Food");
+        db.addMenuItem("Green Tea", 600.0, "Drink");
 
-        System.out.println(myRest);
+        System.out.println("Initial menu from database:");
+        db.readMenu();
 
-        System.out.println("\n--- Initial Order ---");
-        myOrder.printOrder();
+        db.updatePrice(1, 3800.0);
 
-        System.out.println("\n--- Sorted by Price ---");
-        myOrder.sortByPrice();
-        myOrder.printOrder();
+        db.deleteItem(2);
 
-        System.out.println("\n--- Items under 1000 ---");
-        myOrder.filterByMaxPrice(1000).forEach(System.out::println);
+        System.out.println("\nUpdated menu from database:");
+        db.readMenu();
     }
 }
