@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseManager {
     private final String url = "jdbc:postgresql://localhost:5432/postgres";
@@ -32,6 +34,26 @@ public class DatabaseManager {
         }
     }
 
+    /** For REST API: returns menu rows instead of printing to stdout. */
+    public List<MenuRow> getMenu() throws SQLException {
+        // Sorted menu (by name, then id)
+        String sql = "SELECT id, name, price, type FROM menu_items ORDER BY name, id";
+        List<MenuRow> result = new ArrayList<>();
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                result.add(new MenuRow(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getString("type")
+                ));
+            }
+        }
+        return result;
+    }
+
     public void updatePrice(int id, double newPrice) {
         String sql = "UPDATE menu_items SET price = ? WHERE id = ?";
         try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -51,5 +73,19 @@ public class DatabaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+}
+
+class MenuRow {
+    public final int id;
+    public final String name;
+    public final double price;
+    public final String type;
+
+    public MenuRow(int id, String name, double price, String type) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.type = type;
     }
 }
