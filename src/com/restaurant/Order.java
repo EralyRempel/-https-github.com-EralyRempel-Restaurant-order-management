@@ -1,3 +1,5 @@
+package com.restaurant;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -27,7 +29,7 @@ public class Order {
     }
 
     public void printOrder() {
-        System.out.println("Order #" + orderNumber);
+        System.out.println("com.restaurant.Order #" + orderNumber);
         for (MenuItem item : items) {
             System.out.println(" - " + item);
         }
